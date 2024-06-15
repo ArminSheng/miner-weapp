@@ -13,7 +13,7 @@ export default function Index() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <View className="top-bar flex justify-center items-end pb-3 box-border">
+        <View className="top-bar backdrop-blur-4 flex justify-center items-end pb-3 box-border">
           <Image src={Logo} className="w-[24px] mt-4" />
         </View>
         <View className="index relative px-3">

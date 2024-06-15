@@ -4,8 +4,6 @@ import IconAsteroid from "@/assets/asteroid-dot.png";
 import IconPlanet1 from "@/assets/planets/planet-1.png";
 import IconPlanet2 from "@/assets/planets/planet-2.png";
 import IconPlanet3 from "@/assets/planets/planet-3.png";
-import Background from "@/assets/background.png";
-import Grid from "@/assets/grid.png";
 import { Asteroid, Miner, Planet, useSocket } from "../data";
 import { classNames, isAbundant, mapPosition } from "../common";
 import { MinerRocker } from "./MinerRocket";
@@ -21,12 +19,10 @@ export function Galaxy() {
 
   return (
     <div className="fixed w-full h-full left-0 top-0 -z-10">
-      <Text className="text-white rounded-sm bg-card text-[16px] px-[6px] py-[4px] fixed top-[100px] left-1/2 translate-half">
+      <Text className="text-white z-10 rounded-sm bg-card text-[16px] px-[6px] py-[4px] fixed top-[100px] left-1/2 translate-half">
         {currentTick} YEARS
       </Text>
       <div className="w-full h-full relative overflow-hidden">
-        {/* <img src={Background} alt="galaxy" className="w-full h-full" /> */}
-        <Image src={Grid} className="absolute left-0 bottom-0 right-0" />
         <Asteroids items={asteroids} />
         <Planets items={planets} />
         <Miners items={miners} />
@@ -50,6 +46,7 @@ function Miners({ items }: { items: Miner[] }) {
 }
 
 function Planets({ items }: { items: Planet[] }) {
+  if (!items?.length) return null;
   return (
     <>
       {PlanetIcons.map((item, idx) => {
@@ -68,10 +65,8 @@ function Planets({ items }: { items: Planet[] }) {
               <Image src={item.icon} className={item.class} />
               <span
                 className={classNames(
-                  isAbundant(items[idx]?.minerals)
-                    ? "text-green"
-                    : "text-white",
-                  "mt-3 absolute left-50 bottom-0 translate-x-0 translate-y-30px"
+                  isAbundant(items[idx]?.minerals) ? "text-g" : "text-white",
+                  "text-[14px] mt-3 absolute left-50 bottom-0 translate-x-0 translate-y-30px"
                 )}
               >
                 {items[idx]?.minerals}/1000

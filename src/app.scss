@@ -45,7 +45,11 @@ body, page {
   height: 88px;
   background: rgba(255, 255, 255, 0.1);
   width: 100%;
+}
+
+.backdrop-blur-4 {
   backdrop-filter: blur(4px);
+
 }
 
 .popup-wrap {
