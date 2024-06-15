@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Image } from "@tarojs/components";
+import { Image, Text } from "@tarojs/components";
 import IconAsteroid from "@/assets/asteroid-dot.png";
 import IconPlanet1 from "@/assets/planets/planet-1.png";
 import IconPlanet2 from "@/assets/planets/planet-2.png";
@@ -11,26 +11,22 @@ import { classNames, isAbundant, mapPosition } from "../common";
 import { MinerRocker } from "./MinerRocket";
 
 const PlanetIcons = [
-  { icon: IconPlanet1, class: "w-[91px] h-[91px]" },
-  { icon: IconPlanet2, class: "w-[150px]" },
-  { icon: IconPlanet3, class: "w-[120px]" },
+  { icon: IconPlanet1, class: "w-91px h-91px" },
+  { icon: IconPlanet2, class: "w-150px" },
+  { icon: IconPlanet3, class: "w-120px" },
 ];
 
 export function Galaxy() {
   const [{ currentTick, asteroids, planets, miners }] = useSocket();
 
   return (
-    <div className="pt-5 pr-8">
-      <div className="text-base text-white mb-3 font-bold">
+    <div className="fixed w-full h-full left-0 top-0 -z-10">
+      <Text className="text-white rounded-sm bg-card text-[16px] px-[6px] py-[4px] fixed top-[100px] left-1/2 translate-half">
         {currentTick} YEARS
-      </div>
-      <div className="w-[800px] h-[800px] relative overflow-hidden">
+      </Text>
+      <div className="w-full h-full relative overflow-hidden">
         {/* <img src={Background} alt="galaxy" className="w-full h-full" /> */}
-        <Image src={Background} />
-        <Image
-          src={Grid}
-          className="absolute left-0 right-0 bottom-0 right-0"
-        />
+        <Image src={Grid} className="absolute left-0 bottom-0 right-0" />
         <Asteroids items={asteroids} />
         <Planets items={planets} />
         <Miners items={miners} />
@@ -75,7 +71,7 @@ function Planets({ items }: { items: Planet[] }) {
                   isAbundant(items[idx]?.minerals)
                     ? "text-green"
                     : "text-white",
-                  "mt-3 absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-[30px]"
+                  "mt-3 absolute left-50 bottom-0 translate-x-0 translate-y-30px"
                 )}
               >
                 {items[idx]?.minerals}/1000
@@ -101,7 +97,7 @@ function Asteroids({ items }: { items: Asteroid[] }) {
               left: x,
               top: y,
             }}
-            className="w-[30px] absolute"
+            className="w-30px absolute"
           />
         );
       })}

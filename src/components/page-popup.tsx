@@ -4,15 +4,18 @@ import {
   TouchEventFunction,
   View,
 } from "@tarojs/components";
-import { useCallback, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { classNames } from "./util";
 import { MinersItem } from "./miners-item";
 import { log } from "console";
+import { useMinerHistory, useMiners, useSocket } from "@/data";
 
 let lastY;
 
 export function PagePopup() {
   const [open, setOpen] = useState(false);
+
+  const [data] = useSocket();
 
   const popup = useCallback(() => {
     setOpen((isOpen) => !isOpen);
@@ -42,7 +45,7 @@ export function PagePopup() {
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
         >
-          <View className="popup-bar bg-white"></View>
+          <View onClick={popup} className="popup-bar bg-white"></View>
         </View>
 
         <View
@@ -51,21 +54,12 @@ export function PagePopup() {
             open ? "opacity-1" : "opacity-0"
           )}
         >
-          <View className="flex flex-col px-5">
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
-            <MinersItem></MinersItem>
+          <View className="flex flex-col px-5 gap-y-4">
+            {data.miners.map((item) => (
+              <Fragment key={item._id}>
+                <MinersItem item={item}></MinersItem>
+              </Fragment>
+            ))}
           </View>
         </View>
       </View>

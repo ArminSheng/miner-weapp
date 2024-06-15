@@ -19,7 +19,7 @@ export function MinerRocker({ item }: { item: Miner }) {
           item.targetType !== "Planet" ? 180 - item.angle : item.angle
         }deg)`,
       }}
-      className="absolute transition-all ease-linear duration-[1100ms] w-[28px]"
+      className="absolute transition-all ease-linear duration-1000 w-28px"
     />
   );
 }
