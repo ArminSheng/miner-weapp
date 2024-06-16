@@ -10,10 +10,14 @@ body, page {
   height: 100%;
   font-family: Jost;
   color: #fff;
+}
+
+#app {
   background-image: url('./assets/background.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  
 }
 
 .taro_page {
@@ -105,4 +109,8 @@ body, page {
 
 .translate-half {
   transform: translateX(-50%);
+}
+
+.offset-planet {
+  transform: translate(-50%, 20px);
 }

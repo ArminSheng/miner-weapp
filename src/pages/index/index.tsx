@@ -17,8 +17,6 @@ export default function Index() {
           <Image src={Logo} className="w-[24px] mt-4" />
         </View>
         <View className="index relative px-3">
-          <View className="flex justify-center py-2"></View>
-
           <Galaxy />
         </View>
         <PagePopup></PagePopup>

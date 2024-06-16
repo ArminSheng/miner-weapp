@@ -1,5 +1,5 @@
-import { Fragment } from "react";
-import { Image, Text } from "@tarojs/components";
+import { Fragment, useCallback, useState } from "react";
+import { ITouchEvent, Image, Text, View } from "@tarojs/components";
 import IconAsteroid from "@/assets/asteroid-dot.png";
 import IconPlanet1 from "@/assets/planets/planet-1.png";
 import IconPlanet2 from "@/assets/planets/planet-2.png";
@@ -14,20 +14,47 @@ const PlanetIcons = [
   { icon: IconPlanet3, class: "w-120px" },
 ];
 
+let lastX = 0;
+let lastY = 0;
+
 export function Galaxy() {
   const [{ currentTick, asteroids, planets, miners }] = useSocket();
 
+  const [{ x, y }, setPos] = useState({ x: 0, y: 0 });
+
+  const onStart = useCallback((e: ITouchEvent) => {
+    lastX = e.touches[0].pageX;
+    lastY = e.touches[0].pageY;
+  }, []);
+
+  const onMove = useCallback(
+    (e: ITouchEvent) => {
+      const { pageX, pageY } = e.touches[0];
+      setPos({ x: x + (pageX - lastX) * 0.5, y: y + (pageY - lastY) * 0.5 });
+      lastX = pageX;
+      lastY = pageY;
+    },
+    [x, y]
+  );
+
   return (
-    <div className="fixed w-full h-full left-0 top-0 -z-10">
+    <View
+      className="fixed w-full h-full overflow-hidden left-0 top-0 -z-10"
+      onTouchMove={onMove}
+      onTouchStart={onStart}
+    >
       <Text className="text-white z-10 rounded-sm bg-card text-[16px] px-[6px] py-[4px] fixed top-[100px] left-1/2 translate-half">
         {currentTick} YEARS
       </Text>
-      <div className="w-full h-full relative overflow-hidden">
+      <View
+        className="relative transition-transform duration-300 ease-out"
+        style={{ transform: `translate(${x}px, ${y}px)` }}
+      >
         <Asteroids items={asteroids} />
         <Planets items={planets} />
         <Miners items={miners} />
-      </div>
-    </div>
+      </View>
+    </View>
   );
 }
 
@@ -66,7 +93,7 @@ function Planets({ items }: { items: Planet[] }) {
               <span
                 className={classNames(
                   isAbundant(items[idx]?.minerals) ? "text-g" : "text-white",
-                  "text-[14px] mt-3 absolute left-50 bottom-0 translate-x-0 translate-y-30px"
+                  "text-[14px] mt-3 absolute left-50 bottom-0 offset-planet"
                 )}
               >
                 {items[idx]?.minerals}/1000
